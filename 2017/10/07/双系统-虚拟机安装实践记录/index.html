@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="一个关于spark的介绍：http://www.csdn.net/article/2015-07-10/2825184课程实践：目标一：系统搭建目标二：使用spark进行数据处理系统搭建步骤：1、安装HDFS·下载Hadoop：http://hadoop.apache.org/releases.html·配置Hadoop集群：http://hadoop.apache.org/docs/r3.0.0">
+<meta property="og:type" content="article">
+<meta property="og:title" content="双系统&#x2F;虚拟机安装实践记录">
+<meta property="og:url" content="http://yoursite.com/2017/10/07/双系统-虚拟机安装实践记录/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="一个关于spark的介绍：http://www.csdn.net/article/2015-07-10/2825184课程实践：目标一：系统搭建目标二：使用spark进行数据处理系统搭建步骤：1、安装HDFS·下载Hadoop：http://hadoop.apache.org/releases.html·配置Hadoop集群：http://hadoop.apache.org/docs/r3.0.0">
+<meta property="og:updated_time" content="2018-03-14T11:39:35.652Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="双系统&#x2F;虚拟机安装实践记录">
+<meta name="twitter:description" content="一个关于spark的介绍：http://www.csdn.net/article/2015-07-10/2825184课程实践：目标一：系统搭建目标二：使用spark进行数据处理系统搭建步骤：1、安装HDFS·下载Hadoop：http://hadoop.apache.org/releases.html·配置Hadoop集群：http://hadoop.apache.org/docs/r3.0.0">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/10/07/双系统-虚拟机安装实践记录/"/>
+
+
+
+
+
+  <title>双系统/虚拟机安装实践记录 | Hexo</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Startseite
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archiv
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/07/双系统-虚拟机安装实践记录/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">双系统/虚拟机安装实践记录</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-10-07T16:12:43+08:00">
+                2017-10-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>一个关于spark的介绍：<a href="http://www.csdn.net/article/2015-07-10/2825184" target="_blank" rel="noopener">http://www.csdn.net/article/2015-07-10/2825184</a><br>课程实践：<br>目标一：系统搭建<br>目标二：使用spark进行数据处理<br><strong>系统搭建步骤：</strong><br><strong>1、安装HDFS</strong><br>·下载Hadoop：<a href="http://hadoop.apache.org/releases.html" target="_blank" rel="noopener">http://hadoop.apache.org/releases.html</a><br>·配置Hadoop集群：<a href="http://hadoop.apache.org/docs/r3.0.0-" target="_blank" rel="noopener">http://hadoop.apache.org/docs/r3.0.0-</a><br>alpha4/hadoop-project-dist/hadoop-common/ClusterSetup.html<br>· HDFS自然就可以使用了<br><strong>2、安装Spark</strong><br>·下载Spark：<a href="http://spark.apache.org/downloads.html" target="_blank" rel="noopener">http://spark.apache.org/downloads.html</a><br>·配置Spark Standalone集群：<a href="http://spark.apache.org/docs/latest/sparkstandalone.html" target="_blank" rel="noopener">http://spark.apache.org/docs/latest/sparkstandalone.html</a><br><strong>3、安装MongoDB</strong><br>·下载MongoDB：<a href="https://www.mongodb.com/downloadcenter" target="_blank" rel="noopener">https://www.mongodb.com/downloadcenter</a>?<br>jmp=nav#community (页面有安装指南)<br>·下载Mongo Spark Connector：<a href="https://www.mongodb.com/products/spark-connector" target="_blank" rel="noopener">https://www.mongodb.com/products/spark-connector</a><br><strong>4、注：</strong><br>Hadoop需要Linux操作系统，建议使用redhat<br>设置SSH无密码登录<br>安装JDK、Scala</p>
+<p>1、首先在win10系统的主机上安装Linux双系统；或选择装虚拟机（更顺利）<br>安装双系统步骤：<br>(1)下载Linux系统镜像，可选择redhat、CentOS或Ubuntu等。这几种Linux发布版本的区别稍后可以再多了解一下。<br>(2)使用UltraISO软碟通的写入磁盘映像功能将Linux镜像写入到准备好的u盘（这个过程会首先把u盘格式化成fat32格式，所有数据会被覆盖，因此要提前对U盘做好备份）<br>(3)重启插且仅插上述u盘的电脑，开机过程中在合适的时机（还不是很清楚合适时机具体是什么时候，暂且常按）按下F12（或esc）进入启动设备菜单，选择usb并回车，下一步回车确认安装u盘所带系统。<br>(4)选择语言时区什么的，比较简单。复杂一点的是手动分区的过程，需要手动设置挂载点和分配空间。过后可以深入了解一下细节。一般包括根目录/，/boot，/home，/swap（交换分区，作用差不多类似于虚拟内存），剩余空间自动分给/vars。这里遇到了一个问题：最多只能添加3个挂载点，并不是顺序问题，不知道为什么。<br>(5)设置root密码和添加用户，重启电脑。这里遇到了一个问题：重启完仿佛什么都没发生一样回到了Windows，后来听到说原因可能是机房电脑装了增霸还原卡，需要先进入BIOS卸载掉它。还没有试，增霸还原卡也不是很了解，回头再去做一下。<br>PS:<br>格式化u盘为FAT32的步骤：<a href="http://www.ddsofts.com/windows/format2fat32/" target="_blank" rel="noopener">http://www.ddsofts.com/windows/format2fat32/</a><br>安装centos系统步骤可以百度win10和centos双系统安装步骤，有很详细的图文教程。</p>
+<p>2.于是我选择放弃，装了虚拟机。系统最初还是用的centOS镜像，但它某些设置不符合云计算实践要求，于是换了redhat<br>3.to be continued…</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/01/10/MSE复试-数据库知识点整理/" rel="next" title="MSE复试_数据库知识点整理">
+                <i class="fa fa-chevron-left"></i> MSE复试_数据库知识点整理
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/12/14/【大白话版】求最大和子数组的动态规划算法/" rel="prev" title="【大白话版】求最大和子数组的动态规划算法">
+                【大白话版】求最大和子数组的动态规划算法 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">John Doe</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">Artikel</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Erstellt mit  <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

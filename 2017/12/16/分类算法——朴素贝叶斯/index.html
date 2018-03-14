@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="分类算法：使用训练集（数据元组+对应类标号），选用某种分类算法进行监督学习，得到一个分类器；再使用和训练集没有重合的检验集来使用分类器分类，检验分类器的准确率。如果准确率可以接受，那这个分类器就可以用啦。 朴素贝叶斯分类法：用途：给定一个元组，可以计算出这个元组最应该被分到哪个类。使用条件概率来度量“应该程度”原理：利用贝叶斯公式算出以给定元组矢量值为条件，在训练集上计算出现类i的概率，能使这个条">
+<meta property="og:type" content="article">
+<meta property="og:title" content="分类算法——朴素贝叶斯">
+<meta property="og:url" content="http://yoursite.com/2017/12/16/分类算法——朴素贝叶斯/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="分类算法：使用训练集（数据元组+对应类标号），选用某种分类算法进行监督学习，得到一个分类器；再使用和训练集没有重合的检验集来使用分类器分类，检验分类器的准确率。如果准确率可以接受，那这个分类器就可以用啦。 朴素贝叶斯分类法：用途：给定一个元组，可以计算出这个元组最应该被分到哪个类。使用条件概率来度量“应该程度”原理：利用贝叶斯公式算出以给定元组矢量值为条件，在训练集上计算出现类i的概率，能使这个条">
+<meta property="og:updated_time" content="2018-03-14T11:38:05.033Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="分类算法——朴素贝叶斯">
+<meta name="twitter:description" content="分类算法：使用训练集（数据元组+对应类标号），选用某种分类算法进行监督学习，得到一个分类器；再使用和训练集没有重合的检验集来使用分类器分类，检验分类器的准确率。如果准确率可以接受，那这个分类器就可以用啦。 朴素贝叶斯分类法：用途：给定一个元组，可以计算出这个元组最应该被分到哪个类。使用条件概率来度量“应该程度”原理：利用贝叶斯公式算出以给定元组矢量值为条件，在训练集上计算出现类i的概率，能使这个条">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/12/16/分类算法——朴素贝叶斯/"/>
+
+
+
+
+
+  <title>分类算法——朴素贝叶斯 | Hexo</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Startseite
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archiv
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/16/分类算法——朴素贝叶斯/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">分类算法——朴素贝叶斯</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-12-16T20:59:44+08:00">
+                2017-12-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><strong>分类算法</strong>：<br>使用训练集（数据元组+对应类标号），选用某种分类算法进行监督学习，得到一个分类器；再使用和训练集没有重合的检验集来使用分类器分类，检验分类器的准确率。如果准确率可以接受，那这个分类器就可以用啦。</p>
+<p><strong>朴素贝叶斯分类法</strong>：<br><strong>用途</strong>：给定一个元组，可以计算出这个元组最应该被分到哪个类。使用条件概率来度量“应该程度”<br><strong>原理</strong>：利用贝叶斯公式算出以给定元组矢量值为条件，在训练集上计算出现类i的概率，能使这个条件概率取最大值的类i就是该元组应该被分到的类。<br>基于类条件独立性的假定+贝叶斯定理，因此名叫朴素+贝叶斯。<br><strong>类条件独立性</strong>：假定一个数据的各个属性对分类标号的影响是相互独立的。（其实也就是每个属性的取值之间没有相关性。和统计学中的条件概率要求随机事件之间相互独立是一回事）<br><strong>贝叶斯定理公式</strong>（也就是条件概率公式）：P(A|B)=P(B|A)*P(A)/P(B)<br><strong>大白话版本</strong>：朴素贝叶斯分类法，其实是提供打了标签的历史数据（这里就是训练集），然后对一条未打标签的新数据，利用条件概率算算这条历史数据中这条新数据的取值条件下应该被打上每种标签的概率，哪个概率最高就打哪个。</p>
+<p><strong>一些脑中预定义的感知：</strong><br>1、每个元组都是一个向量，提供了这一条数据在不同属性维度上的取值。<br>2、具体有多少种分类是已知的：就看训练集上的类标号有多少种。<br>3、训练集数据提供：很多n维向量+每个向量对应的类标号，其实都可以理解成有很多n+1维向量，只不过其中一维是类标号这个特殊的属性。<br>4、于是：用C来表示类标号，现有m种分类结果（C1,C2,…,Cm），一个待求概率的n维向量X（在各维度上的值分别为x1,x2,…,xn），求发生X的条件下，类标号上出现Ci的条件概率，也就是对每条数据求m个条件概率，概率最大的Ci就是这个向量X的分类结果。<br>5、朴素贝叶斯分类器可以说是不存在训练的过程，一堆打了标签的数据加上贝叶斯公式其实就是分类器本器了。</p>
+<p><strong>具体思路：</strong><br>1、这个问题下的公式写作：P(Ci|X)=P(X|Ci)P(Ci)/P(X)<br>2、比较哪个Ci能使P最大，只是个比较问题，不需要每个P都求出具体值。而每个P都有1/P(X)这个大于0小于1的因子，所以计算时可以同时忽略这个因子。于是问题转化为求哪个P(X|Ci)P(Ci)最大。<br>3、P(Ci)很好求， 看所有数据里属性C中C=Ci的占比就可以了<br>4、P(X|Ci)并不好求：因为X是个n维向量，对于每个元组依次匹配各个维度上的取值，在n很大的时候开销就变很大了。而发生Ci的条件下出现(x1,x2,…,xn)的概率，换个描述法就是发生Ci条件下，出现x1且x2且x3且…且xn的概率。于是这时引入了“朴素”的假设：假设这些且的属性怎么取值是相互独立的，那么P(X|Ci)=P(x1|Ci)P(x2|Ci)…P(xn|Ci)，而这里的每一项P(xk|Ci)都是很容易求出来的。<br>5、对求出来的m个P找到最大的那个Ci</p>
+<p><strong>问题细节</strong>：<br><strong>a)</strong>前面所述是针对属性值是离散值的情况，当属性值是连续值时，有两种办法：<br>1、使用分箱等离散化方法把属性值分成几类，于是转化成离散值<br>2、假定连续值属性服从正态分布，那么由训练集数据可以求出正态分布的均值和方差，也就确定了正态分布的概率公式，把xk代进公式就得到概率啦<br><strong>b)</strong>遇到零概率值：<br>如果乘积的因子中出现一个零概率值，那其余所有的因子就算再大，这个乘积也只能是0了，这显然是不合理的。<br>解决办法：<br>laplace校准：假设训练集非常大，那么对于出现0值的这种属性k-类标号Ci情况，如果属性k有t种取值，那就假设多了t条数据，它们分别是xk取t种取值，类标号为Ci的。这样再算概率，就会把0值变成一个合理的小值，非零值基本没变，这种校准方法还是很合理哒。</p>
+<p><strong>代码实现</strong>：<br>放到实际问题里基本就是很多查询语句select count(*)完了再各种求比值求乘积，没什么好实现的。</p>
+<p><strong>算法评价</strong>：<br>1、某些领域，它的准确率跟决策树或是神经网络这些复杂的分类算法可以相媲美了<br>2、假设类条件独立，但现实中不可能属性间都独立的，这是个局限<br>3、朴素贝叶斯分类器的思想，可以说是，计算已给特定值的数据 映射到 类标号集上的贴合程度，最贴合的就是结果。朴素贝叶斯里的贴合程度用条件概率来描述。基于这个思想应该还可以用其他的模型或是公式来求这个“贴合程度值”。总之公式很简单，思想很基本，但思想又很经典。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/12/14/【大白话版】求最大和子数组的动态规划算法/" rel="next" title="【大白话版】求最大和子数组的动态规划算法">
+                <i class="fa fa-chevron-left"></i> 【大白话版】求最大和子数组的动态规划算法
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/12/16/分类算法——决策树/" rel="prev" title="分类算法——决策树">
+                分类算法——决策树 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">John Doe</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">Artikel</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Erstellt mit  <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

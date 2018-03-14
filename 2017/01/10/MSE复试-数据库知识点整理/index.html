@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="知识点提纲：第二章：关系模型的基本概念与基本理论2.1 数据库的基本概念··数据库，数据库管理系统(DBMS - database management system)，数据模型(data model)2.2 关系模型的基本概念··数据结构：二维表(table/relation)，属性(column/attribute)，元组(row/tuple)，表头(table heading)，域(doma">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MSE复试_数据库知识点整理">
+<meta property="og:url" content="http://yoursite.com/2017/01/10/MSE复试-数据库知识点整理/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="知识点提纲：第二章：关系模型的基本概念与基本理论2.1 数据库的基本概念··数据库，数据库管理系统(DBMS - database management system)，数据模型(data model)2.2 关系模型的基本概念··数据结构：二维表(table/relation)，属性(column/attribute)，元组(row/tuple)，表头(table heading)，域(doma">
+<meta property="og:updated_time" content="2018-03-14T11:36:52.386Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MSE复试_数据库知识点整理">
+<meta name="twitter:description" content="知识点提纲：第二章：关系模型的基本概念与基本理论2.1 数据库的基本概念··数据库，数据库管理系统(DBMS - database management system)，数据模型(data model)2.2 关系模型的基本概念··数据结构：二维表(table/relation)，属性(column/attribute)，元组(row/tuple)，表头(table heading)，域(doma">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/01/10/MSE复试-数据库知识点整理/"/>
+
+
+
+
+
+  <title>MSE复试_数据库知识点整理 | Hexo</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Startseite
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archiv
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/10/MSE复试-数据库知识点整理/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">MSE复试_数据库知识点整理</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-10T20:00:17+08:00">
+                2017-01-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="知识点提纲："><a href="#知识点提纲：" class="headerlink" title="知识点提纲："></a>知识点提纲：</h2><p><strong>第二章：关系模型的基本概念与基本理论</strong><br><strong>2.1 数据库的基本概念</strong><br>··数据库，数据库管理系统(DBMS - database management system)，数据模型(data model)<br><strong>2.2 关系模型的基本概念</strong><br>··数据结构：二维表(table/relation)，属性(column/attribute)，元组(row/tuple)，表头(table heading)，域(domain)<br>··约束规则(relational rule)<br>··键(key)与超键(superkey)<br>··空值(null value)<br><strong>2.3 关系模型的基本理论 — 关系代数(relational algebra)</strong><br>··表/关系在关系代数中的表示<br>··关系代数中的运算符：<br>··传统的集合运算符（并、交、差） &amp; 纯粹的关系运算符（投影，选择，笛卡儿乘积，自然联接，除法，θ-联接）<br>··基本运算（并，差，投影，选择，笛卡儿乘积） &amp; 扩充运算（交，自然联接，除法，……）<br>··难点：减法、除法和表自身的连接运算<br>··关系代数的应用</p>
+<p><strong>Ch2 知识点详解</strong><br><strong>2.1 数据库的基本概念</strong><br><strong>数据库</strong>：为一个共同的目的而保存起来的所有数据的集合。<br><strong>数据库管理系统</strong>：DBMS，是一套计算机程序，它把企业的数据以记录的形式保存在计算机中。<br><strong>数据模型</strong>：data model，是一套描述如何将现实世界的数据在概念上用电子信息表示的定义，它还表示为用来操作这些数据的一类操作。<br><strong>几种数据模型</strong>：<br>Hierarchical Data Model/层次数据模型（树）<br>Network Data Model/网状数据模型（图）<br>Relational Model/关系模型（表）<br>Object-Relational Model/对象关系模型 （不受第一范式规则约束的关系模型、表中元素可以是集合）。<br><strong>2.2 关系模型的基本概念</strong><br><strong>数据结构：</strong><br>表/关系(table/relation)：file of records。表是以行和列的形式组织起来的数据的集合(wiki)。<br>列/属性(column/attribute)：field names of records。<br>行/元组(row/tuple)：records of a file。<br>表头/模式(table heading/schema)：列名的集合。<br>域(domain)：可以被用作表的属性值的常数的集合。<br><strong>约束规则(relationarule)：</strong><br>Rule 1. 第一范式规则：在定义的表中，关系模型坚持不允许含有多值属性和含有内部结构的列。<br>Rule 2. 只能基于内容取行规则：只可以通过行的内容，即每一行中所存在的属性值来检索列。<br>Rule 3. 行唯一性原则：关系中的任何两个元组的值在同一时刻不能是完全相同的。<br>Rule 4. 实体完整性规则：表T中的任意行在主键列的取值都不允许为空值。</p>
+<p>超键(Superkey):表的任意两行数据在该列的集合上都有唯一的值，类似于线性代数中向量组的一个“代表”，且该向量组中的向量不需要是线性无关的。<br>键(Key)：组成键的列集合中再也没有子集也是表的超键。亦即不含有多余属性的超键。类似于线代中向量组的一个极大无关组。<br>候选键(Candidate Key)：关系的所有键。亦即不含有多余属性的超键的集合。类似于线代中向量组的全部极大无关组。<br>主键(Primary Key)：被数据库设计者选择出来作为表中特定行的唯一性标识符的某一个候选键。<br>空值(null value)：未知的或尚未定义的值。（计算平均值时被剔除）</p>
+<p><strong>2.3 关系模型的基本理论——关系代数(relational algebra)</strong><br><strong>表/关系在关系代数中的表示</strong><br><strong>关系代数中的运算符</strong><br><strong>1、集合运算</strong>：R ∪ S        R ∩ S        R – S        R × S<br>兼容表：表头相同且属性的域相同。<br>并（∪）、交（∩）、差（-）是针对行的操作；<br>赋值（:=）是针对表的操作；<br>乘（×）即对两个表的所有做作笛卡尔乘积。<br><strong>2、自然关系运算</strong>：投影、选择、连接、除<br>投影运算：R在Ai1, Ai2, … , Aik上的投影用R[Ai1, Ai2, … , Aik]表示，如CUSTOMER[name]。即把某几列从表中选出，重复的值会被合并。<br>选择运算：S where C，C也可以是C and C’，C or C’或者not C。<br>连接运算：R ∞ S，即选出属性重叠部分值相同的元组。没有共同属性时连接的结果与笛卡尔乘积相同。<br>除运算：乘积的逆运算（每行除后取交集），用于处理“所有”问题。<br><strong>3、扩充运算</strong>：外连接、θ连接<br>外连接：R ∞0 S，即将两个表完全“并”起来，无对应值时补null。<br>左外链接：R ∞L0 S，即保留左边未匹配的行，右边补null。<br>右外链接：R ∞R0 S，即保留右边未匹配的行，左边补null。<br>θ连接：θ可以是{&gt;, &lt;, &gt;=, &lt;=, =, &lt;&gt;}中的一个。表示为R ∞Ai θ Bj S，即两个表满足θ条件的连接。若Ai和Bj同名，则表示为R ∞R.Ai θ S.Bj S。</p>
+<p>难点：减法、除法和表自身的连接运算<br>关系代数的应用</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/10/07/双系统-虚拟机安装实践记录/" rel="prev" title="双系统/虚拟机安装实践记录">
+                双系统/虚拟机安装实践记录 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Inhaltsverzeichnis
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Übersicht
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">John Doe</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">Artikel</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#知识点提纲："><span class="nav-number">1.</span> <span class="nav-text">知识点提纲：</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Erstellt mit  <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
