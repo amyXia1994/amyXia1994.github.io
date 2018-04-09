@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="一、概念性问题1、架构的5个来源需求、涉众、开发组织、架构师、技术环境 2、需求的3类，每一类的定义功能性需求，质量需求、约束 功能需求：系统需要做什么，系统应当如何为涉众提供价值。 质量需求：系统应当满足的整个系统的理想特性。 约束：是预定义的设计决策。通过接受设计决策、与其他受影响的设计决策进行协调来满足约束。 3、架构的定义SEI：是整个程序或计算系统的结构(Structure)，包含了程序">
+<meta property="og:type" content="article">
+<meta property="og:title" content="软件体系结构">
+<meta property="og:url" content="http://amyXia1994.github.io/2018/04/09/软件体系结构/index.html">
+<meta property="og:site_name" content="不值得一提的见解">
+<meta property="og:description" content="一、概念性问题1、架构的5个来源需求、涉众、开发组织、架构师、技术环境 2、需求的3类，每一类的定义功能性需求，质量需求、约束 功能需求：系统需要做什么，系统应当如何为涉众提供价值。 质量需求：系统应当满足的整个系统的理想特性。 约束：是预定义的设计决策。通过接受设计决策、与其他受影响的设计决策进行协调来满足约束。 3、架构的定义SEI：是整个程序或计算系统的结构(Structure)，包含了程序">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2018-04-09T02:14:02.085Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="软件体系结构">
+<meta name="twitter:description" content="一、概念性问题1、架构的5个来源需求、涉众、开发组织、架构师、技术环境 2、需求的3类，每一类的定义功能性需求，质量需求、约束 功能需求：系统需要做什么，系统应当如何为涉众提供价值。 质量需求：系统应当满足的整个系统的理想特性。 约束：是预定义的设计决策。通过接受设计决策、与其他受影响的设计决策进行协调来满足约束。 3、架构的定义SEI：是整个程序或计算系统的结构(Structure)，包含了程序">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://amyXia1994.github.io/2018/04/09/软件体系结构/"/>
+
+
+
+
+
+  <title>软件体系结构 | 不值得一提的见解</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">不值得一提的见解</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://amyXia1994.github.io/2018/04/09/软件体系结构/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Amy Xia">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="不值得一提的见解">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">软件体系结构</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-04-09T10:11:24+08:00">
+                2018-04-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/04/09/软件体系结构/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/04/09/软件体系结构/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="一、概念性问题"><a href="#一、概念性问题" class="headerlink" title="一、概念性问题"></a>一、概念性问题</h4><h5 id="1、架构的5个来源"><a href="#1、架构的5个来源" class="headerlink" title="1、架构的5个来源"></a>1、架构的5个来源</h5><p>需求、涉众、开发组织、架构师、技术环境</p>
+<h5 id="2、需求的3类，每一类的定义"><a href="#2、需求的3类，每一类的定义" class="headerlink" title="2、需求的3类，每一类的定义"></a>2、需求的3类，每一类的定义</h5><p>功能性需求，质量需求、约束</p>
+<p>功能需求：系统需要做什么，系统应当如何为涉众提供价值。</p>
+<p>质量需求：系统应当满足的整个系统的理想特性。</p>
+<p>约束：是预定义的设计决策。通过接受设计决策、与其他受影响的设计决策进行协调来满足约束。</p>
+<h5 id="3、架构的定义"><a href="#3、架构的定义" class="headerlink" title="3、架构的定义"></a>3、架构的定义</h5><p>SEI：是整个程序或计算系统的结构(Structure)，包含了程序的元素(Software Elements)和那些外部能看见的元素属性(Properties)和元素之间的关系(Relationship)</p>
+<p>IEEE：一个系统的基本组织，包含了了它的所有组件(Components)、组件之间的关系、环境以及指导该系统的设计(Design)和演化(Evolution)的原则(Principle)</p>
+<h5 id="4、列举4种tactics"><a href="#4、列举4种tactics" class="headerlink" title="4、列举4种tactics"></a>4、列举4种tactics</h5><p>心跳机制：监控系统/服务的可用性，如果不再能收到服务的心跳，则认为服务已经失效/出了故障，可用来提高可用性、可靠性</p>
+<p>提高内聚、降低耦合、重构、清晰定义接口：可以提高系统的可修改性，互操作性</p>
+<p>提高资源效率，增加资源，控制资源需求、引入并发：系统接收到外部请求后可迅速响应。提高系统性能</p>
+<p>时间戳：可用于发现错误序列，尤其是分布式信息传递系统中</p>
+<p>事务机制，回滚：便于故障恢复</p>
+<p>主动冗余：采用冗余的服务器的机制来保证系统出现故障时不发生可用性缺失。</p>
+<h5 id="5、软件架构中的4个活动及各自的输入输出（就是那张颜色丰富的图"><a href="#5、软件架构中的4个活动及各自的输入输出（就是那张颜色丰富的图" class="headerlink" title="5、软件架构中的4个活动及各自的输入输出（就是那张颜色丰富的图"></a>5、软件架构中的4个活动及各自的输入输出（就是那张颜色丰富的图</h5><p>确定ASR：发现一些候选ASR</p>
+<p>输入：涉众     输出：带优先级的质量属性场景</p>
+<p>架构设计：定位ASR，选择、生成和分析设计决策来达成这些质量属性</p>
+<p>输入：带优先级的质量属性场景、需求、约束、patterns和tactics    输出：候选views</p>
+<p>文档化：设计出来架构后还要让它可被涉众理解和使用</p>
+<p>输入：候选view、涉众    输出：选中的views和其结合文本的表示</p>
+<p>架构评估：关乎系统成败，有必要花时间确保架构设计可提供需要的东西</p>
+<p>输入：涉众、带优先级的质量属性场景    输出：选中的views和其结合文本的表示</p>
+<h4 id="二、比较对比问题"><a href="#二、比较对比问题" class="headerlink" title="二、比较对比问题"></a>二、比较对比问题</h4><h5 id="1、架构VS设计"><a href="#1、架构VS设计" class="headerlink" title="1、架构VS设计"></a>1、架构VS设计</h5><p>1）架构是设计的一部分：架构一定是软件设计，但并非所有的设计都是架构；</p>
+<p>2）架构提供了设计的抽象视图，架构是一种high level的设计，是一系列设计决策。</p>
+<h5 id="2、架构VS结构"><a href="#2、架构VS结构" class="headerlink" title="2、架构VS结构"></a>2、架构VS结构</h5><p>架构包括software elements和它们的外在特性、它们之间的关系。</p>
+<p>结构定义了组件接口，但架构还说明组件间的交流和依赖</p>
+<p>架构是一种high level的结构，架构定义了结构，结构特性由架构设计决定。</p>
+<h5 id="3、软件需求VS质量属性VS架构关键需求（ASR"><a href="#3、软件需求VS质量属性VS架构关键需求（ASR" class="headerlink" title="3、软件需求VS质量属性VS架构关键需求（ASR"></a>3、软件需求VS质量属性VS架构关键需求（ASR</h5><p>软件需求 ：包括功能需求、非功能需求；非功能需求or架构需求则是QA的替代术语。</p>
+<p>质量属性：在功能需求之上，系统应当满足的整个系统的理想特性</p>
+<p>ASR：对于架构会产生重大影响的，会对架构设计决策产生关键影响的那部分质量属性。一个质量属性越困难、越重要，越倾向于成为ASR。</p>
+<h5 id="4、patterns-VS-tactics"><a href="#4、patterns-VS-tactics" class="headerlink" title="4、patterns VS tactics"></a>4、patterns VS tactics</h5><p>1）tactics更加简单，使用单一结构或机制来达成单一架构目标</p>
+<p>2）patterns是多种相关设计决策进行组合的结果</p>
+<p>3）tactics是构建patterns的组成模块</p>
+<p>4）大部分patterns由多种不同的tactics组成</p>
+<p>5）二者共同构成软件架构的主要工具</p>
+<h5 id="5、styles-vs-patterns-vs-views"><a href="#5、styles-vs-patterns-vs-views" class="headerlink" title="5、styles vs patterns vs views"></a>5、styles vs patterns vs views</h5><p>style：定义元素、元素间关系类型和元素用法约束，关注架构方法，不关注具体上下文和问题；=architecture approach</p>
+<p>pattern：体现软件系统基本的结构组织模式。关注具体上下文中的问题和具体上下文中如何解决；=（problem+context）-&gt;architecture approach</p>
+<p>view：表示系统中特定类型的元素及元素间关系；不同视图支持不同的目标和用户，强调不同系统元素和关系；不同视图在不能程度上表示不同的质量属性。</p>
+<h5 id="6、产品线VS单一产品"><a href="#6、产品线VS单一产品" class="headerlink" title="6、产品线VS单一产品"></a>6、产品线VS单一产品</h5><p>产品线SPL：一系列可满足特定市场部门或任务的特定需求的软件系统 共享 一组通用的、被管理的特性集，它们是以规定的方式，从一套共同的core assets中开发出来的。</p>
+<p>SPL通常是多个同步的变体，而单一产品使用版本和发布来控制。</p>
+<p>SPL不仅仅是一个可重构的架构，它可以使用系统的变化。</p>
+<h4 id="三、步骤问题"><a href="#三、步骤问题" class="headerlink" title="三、步骤问题"></a>三、步骤问题</h4><h5 id="1、ADD"><a href="#1、ADD" class="headerlink" title="1、ADD"></a>1、ADD</h5><p>step1：确定有足够的需求(输入）</p>
+<ul>
+<li>涉众根据业务目标为需求划分优先级</li>
+<li>将质量属性表示为场景</li>
+</ul>
+<p>Step2：选择一个系统的元素来分解</p>
+<ul>
+<li>如果是第一次迭代，则选择整个系统进行本次分解，将所有需求都被分配给系统</li>
+<li>如果系统已经根据需求被分解，则选择其中一个元素</li>
+</ul>
+<p>Step3：为选择的元素定义ASRs</p>
+<ul>
+<li>H, M, L 的二维数组：(对利益相关者的重要性，对架构实现的影响)即(Importance，Difficulty)</li>
+<li>第一个表示：这条需求对涉众的重要程度</li>
+<li>第二个表示：这条需求对架构的影响有多大</li>
+</ul>
+<p>Step4：选择一个符合架构必要需求的设计理念</p>
+<ul>
+<li>确认设计关注点<ul>
+<li>如何满足ASRs</li>
+</ul>
+</li>
+<li>为次要关注点列出不同的模式和策略<ul>
+<li>需要为选择的模式选定度量值，估计度量值的取值</li>
+</ul>
+</li>
+<li>选择合适的模式和策略<ul>
+<li>根据他们对ASRs的优缺点进行选择</li>
+</ul>
+</li>
+<li>决定架构必要需求和模式策略之间的关系(确定模式/战术与ASRs之间的关系)</li>
+<li>得到架构视图</li>
+<li>评估并解决不一致问题</li>
+</ul>
+<p>Step5：列出架构元素并分配职责(实例化架构元素并分配职责)</p>
+<ul>
+<li>将父元素的职责在子元素中进行分配,分析和文档化设计决定</li>
+</ul>
+<p>Step6：定义元素接口</p>
+<ul>
+<li>接口描述了元素需要什么和提供什么的假设</li>
+</ul>
+<p>Step7：确认需求，为元素构造约束</p>
+<p>Step8：重复以上步骤直到所有架构必要需求都被满足</p>
+<h5 id="2、ATAM"><a href="#2、ATAM" class="headerlink" title="2、ATAM"></a>2、ATAM</h5><h5 id="3、PK的4-1views"><a href="#3、PK的4-1views" class="headerlink" title="3、PK的4+1views"></a>3、PK的4+1views</h5><p>逻辑视图：描述架构中至关重要的架构元素和他们之间的关系 Logical</p>
+<p>过程视图(进程视图)：描述元素之间的交流依赖 process</p>
+<p>物理视图：主要的进程和组件是怎么映射到硬件 Physical</p>
+<p>开发视图：捕捉软件组件的内部组织 Development</p>
+<p>架构用例：+1，架构需求，与多个视图相关 Architecture use cases</p>
+<h5 id="4、文档化——如何选择view："><a href="#4、文档化——如何选择view：" class="headerlink" title="4、文档化——如何选择view："></a>4、文档化——如何选择view：</h5><p>1）建立涉众/视图表格</p>
+<p>2）合并视图（确定视图边缘，将边缘视图与其他视图结合）</p>
+<p>3）对视图优先级排序</p>
+<h5 id="5、如何确定ASR："><a href="#5、如何确定ASR：" class="headerlink" title="5、如何确定ASR："></a>5、如何确定ASR：</h5><h4 id="四、Patterns-Style-这部分git上总结的很好"><a href="#四、Patterns-Style-这部分git上总结的很好" class="headerlink" title="四、Patterns/Style 这部分git上总结的很好"></a>四、Patterns/Style 这部分git上总结的很好</h4><h5 id="1、patterns分类"><a href="#1、patterns分类" class="headerlink" title="1、patterns分类"></a>1、patterns分类</h5><p>module关注组件内部结构</p>
+<p>component-connector关注系统级 不同系统间的相互关系</p>
+<p>allocation关注系统与外部环境</p>
+<p>pattern是什么：一系列适用于多次出现的问题的架构设计决策，可根据问题出现的上下文进行参数化设置。</p>
+<h5 id="2、以MVC为例说明Component-connector模式"><a href="#2、以MVC为例说明Component-connector模式" class="headerlink" title="2、以MVC为例说明Component-connector模式"></a>2、以MVC为例说明Component-connector模式</h5><p>MVC模式把功能分解为3个组件：model view和controller</p>
+<p>model：表示应用的核心数据和状态</p>
+<p>view：是用户接口组件，用于向用户展示信息</p>
+<p>controller：协调model和view，管理model和view间的交互，把用户行为转化为model或view的变化</p>
+<p>而notifies relation把model view  controller的实例连接起来。</p>
+<h5 id="3、分层模式的上下文、优缺点Layerd"><a href="#3、分层模式的上下文、优缺点Layerd" class="headerlink" title="3、分层模式的上下文、优缺点Layerd"></a>3、分层模式的上下文、优缺点Layerd</h5><p>分层模式：定义了层与层之间的单向允许使用关系，通常使用代表了层的方框的叠加来表示层的依赖关系。层：提供一组内聚服务的模块组。换句话说：层内是内聚服务，层间演个单向调用</p>
+<p>优点：</p>
+<p>把复杂的问题分解为多个组件；</p>
+<p>提高可扩展性和可复用性；</p>
+<p>缺点：</p>
+<p>层的增加会带来系统的成本和复杂度的增加；</p>
+<p>给性能带来负面影响</p>
+<p>设计不好的层会妨碍到抽象；</p>
+<p>过多的层间关系不利于可移植性和可修改性</p>
+<h5 id="4、代理模式的上下文、优缺点Broker"><a href="#4、代理模式的上下文、优缺点Broker" class="headerlink" title="4、代理模式的上下文、优缺点Broker"></a>4、代理模式的上下文、优缺点Broker</h5><p>代理模式：broker是运行时组件，协调client和server之间的交流。</p>
+<p>优点：</p>
+<p>高可扩展性，高可用性；</p>
+<p>server可以被动态修改</p>
+<p>缺点：</p>
+<p>延迟，通信瓶颈：增加了一层，会延迟client和server间通信，可能会成为通信瓶颈。</p>
+<p>broker会增加系统复杂度</p>
+<p>broker可能出现单点失效；</p>
+<p>broker可能成为被攻击的目标</p>
+<p>broker难于被测试</p>
+<h5 id="5、MVC模式"><a href="#5、MVC模式" class="headerlink" title="5、MVC模式"></a>5、MVC模式</h5><p>把系统功能分为3个组件：MVC，Controller是中介；</p>
+<p>通知关系 连接三部分的实例，并通知相关元素的状态变化。</p>
+<p>缺点：</p>
+<p>用户接口简单的情况下，带来的复杂度是不值得的</p>
+<p>不一定能很好地使用一些用户接口工具</p>
+<h5 id="6、piper-and-filter模式"><a href="#6、piper-and-filter模式" class="headerlink" title="6、piper and filter模式"></a>6、piper and filter模式</h5><p>数据从系统外部输入到输出的过程中，经过一系列由管道连接的过滤器的变化处理</p>
+<p>过滤器：一种转化数据的组件，过滤器间可以并行处理</p>
+<p>管道：将数据从过滤器的输出端口传递给另一个过滤器的输入端口的连接件，不会修改数据</p>
+<p>缺点：</p>
+<p>不适合交互式系统</p>
+<p>有大量独立的过滤器会增大大量的计算开销</p>
+<p>不适合长时间的计算任务</p>
+<h5 id="7、CS模式"><a href="#7、CS模式" class="headerlink" title="7、CS模式"></a>7、CS模式</h5><p>客户端发起与服务器的交互，根据需要 调用服务 等待返回请求结果</p>
+<p>客户端：调用服务器服务的组件，直到它所需要的服务的端口</p>
+<p>服务器：给客户端提供服务的组件，有提供服务的端口。</p>
+<p>请求/响应连接件：使用请求响应协议实现的连接件，客户端使用它来调用服务器的服务。</p>
+<p>缺点：</p>
+<p>服务器会成为性能瓶颈</p>
+<p>服务器淡定失效</p>
+<p>在哪里放置功能的决定是复杂的，切系统构建后很难改变</p>
+<h5 id="8、peer-to-peer模式"><a href="#8、peer-to-peer模式" class="headerlink" title="8、peer to peer模式"></a>8、peer to peer模式</h5><p>计算由多个节点合作完成，各个节点之间要通过网络相互提供服务和相互调用</p>
+<p>点：网络节点上独立的组件</p>
+<p>请求响应连接件：用于连接网络上的点，查找其他点，调用服务</p>
+<p>缺点：</p>
+<p>安全性，数据一致性，数据/服务的可用性，备援和恢复都变的复杂，</p>
+<p>小的点对点系统可能无法实现质量目标，如性能和可用性</p>
+<h5 id="9、Service-oriented模式"><a href="#9、Service-oriented模式" class="headerlink" title="9、Service-oriented模式"></a>9、Service-oriented模式</h5><p>计算由一组相互合作的组件提供，他们在网络上提供服务，包括服务提供者，服务消费者，SOAP连接件、REST连接件</p>
+<p>缺点：</p>
+<p>构建复杂</p>
+<p>中间件带来性能开销</p>
+<p>服务成为性能瓶颈，无法提供性能保证</p>
+<h5 id="10、publish-subscriber模式"><a href="#10、publish-subscriber模式" class="headerlink" title="10、publish-subscriber模式"></a>10、publish-subscriber模式</h5><p>组件发布和订阅时间，发布事件后，基础连接件将时间分发到所有注册的订阅者。</p>
+<p>缺点：</p>
+<p>增加通信延迟，对伸缩性降低，消息传递时间的预测降低</p>
+<p>缺乏对消息顺序的控制，消息是不受保护的</p>
+<h5 id="11、shared-data模式"><a href="#11、shared-data模式" class="headerlink" title="11、shared-data模式"></a>11、shared-data模式</h5><p>数据存取器通过共享的数据商店通信。数据商店负责实现数据持久化。</p>
+<p>缺点：</p>
+<p>数据商店性能瓶颈；单点失效；</p>
+<p>数据的生产者和消费者可能耦合紧密</p>
+<h5 id="12、Map-reduce模式"><a href="#12、Map-reduce模式" class="headerlink" title="12、Map-reduce模式"></a>12、Map-reduce模式</h5><p>提供了一个分析大规模分布式数据集合的框架，在一组处理器上并行处理。Map提取和转化；reduce转载结果</p>
+<p>优点：并行，因而低延迟，高可用</p>
+<p>缺点：</p>
+<p>数据集小时，开销不合理</p>
+<p>数据不能分为小的子集时，并行就没有优势</p>
+<p>需要多reduce的操作是复杂的</p>
+<h5 id="13、multi-tier-based模式"><a href="#13、multi-tier-based模式" class="headerlink" title="13、multi-tier based模式"></a>13、multi-tier based模式</h5><p>计算结构由多个逻辑划分的组件团体组成。每一个团体就是一个层(tier)。</p>
+<p>缺点：前期成本高，复杂度高</p>
+<p>Layer是实际存在的清晰的，有层次关系的组织</p>
+<p>Tier 不是在物理上实际存在的，是一种逻辑上的，概念上的组合，没有明确的层次关系</p>
+<h4 id="五、Designing："><a href="#五、Designing：" class="headerlink" title="五、Designing："></a>五、Designing：</h4><h5 id="1、ADD-1"><a href="#1、ADD-1" class="headerlink" title="1、ADD"></a>1、ADD</h5><h5 id="2、4-1-views"><a href="#2、4-1-views" class="headerlink" title="2、4+1 views"></a>2、4+1 views</h5><h4 id="六、Documentation：views-and-beyond"><a href="#六、Documentation：views-and-beyond" class="headerlink" title="六、Documentation：views and beyond"></a>六、Documentation：views and beyond</h4><h5 id="1、structure-views的3种类型："><a href="#1、structure-views的3种类型：" class="headerlink" title="1、structure views的3种类型："></a>1、structure views的3种类型：</h5><p>Module view：一系列提供内聚职责的实现单元的集合。从属依赖衍生。</p>
+<p>C&amp;C style：展示有了运行时表现的元素 组件：程序、client、server、数据存储等，组件通过端口和连接器交互，连接器是组件间交互的通道。关联。</p>
+<p>Allocation：软件单元和环境元素间的映射。目标是比较环境提供的特性与软件元素需要的特性是否相符，来判断分配是否成功。分配。</p>
+<h5 id="2、视图的4种分类和目标："><a href="#2、视图的4种分类和目标：" class="headerlink" title="2、视图的4种分类和目标："></a>2、视图的4种分类和目标：</h5><p>质量视图：用于表示质量属性是怎样的。</p>
+<p>Module视图：在代码级别表达系统的功能，用于提供对工作任务定义的支持、提供预算信息和系统应管理的结构信息。</p>
+<p>C&amp;C视图：用于展示系统如何运行，通过确定运行时元素的结构和行为指导开发，帮助推导运行时系统质量属性。</p>
+<p>Allocation视图：通过对比环境提供的特性与软件元素需要的属性，判断allocation成功与否。</p>
+<h5 id="3、列举3种结构视图各自包含哪些style："><a href="#3、列举3种结构视图各自包含哪些style：" class="headerlink" title="3、列举3种结构视图各自包含哪些style："></a>3、列举3种结构视图各自包含哪些style：</h5><p>Module：分解、使用、泛化、分层、切面、数据模块（分尸犯曾切树）</p>
+<p>C&amp;C：管道过滤器、C/S、P2P、SOA、发布者-订阅者、共享数据、多层（PCPSSSM）</p>
+<p>Allocation：部署、安装、实现、工作分配、其他分配（不按时工作）</p>
+<h5 id="4、documentation-package的两部分，各自的目标："><a href="#4、documentation-package的两部分，各自的目标：" class="headerlink" title="4、documentation package的两部分，各自的目标："></a>4、documentation package的两部分，各自的目标：</h5><p>architecture view：</p>
+<p>架构视图是一系列特定类型的系统元素和这些元素间关系的表示。</p>
+<p>能帮助把系统实体分解为感兴趣和可管理的表示。</p>
+<p>documentation beyond views：</p>
+<p>超越视图的文档包括架构文档信息和架构信息。</p>
+<p>展示了文档路线图，视图如何被文档化的方式，系统概述，视图间映射，基本理论和目录。</p>
+<h5 id="5、为什么需要使用多种不同视图来记录架构？"><a href="#5、为什么需要使用多种不同视图来记录架构？" class="headerlink" title="5、为什么需要使用多种不同视图来记录架构？"></a>5、为什么需要使用多种不同视图来记录架构？</h5><p>视图用来表示系统中特定类型的元素及元素间关系；</p>
+<p>不同视图支持不同的目标和用户，强调不同系统元素和关系；</p>
+<p>不同视图在不能程度上揭示不同的质量属性。</p>
+<h4 id="七、Evaluation：ATAM"><a href="#七、Evaluation：ATAM" class="headerlink" title="七、Evaluation：ATAM"></a>七、Evaluation：ATAM</h4><p>考察方式：</p>
+<p>ATAM每步中参与的涉众和涉众在其中的角色；</p>
+<p>ATAM每步的输出</p>
+<p>ATAM每步做什么</p>
+<h5 id="1、评估（why-when-how）：降成本、降风险、质量保障"><a href="#1、评估（why-when-how）：降成本、降风险、质量保障" class="headerlink" title="1、评估（why when how）：降成本、降风险、质量保障"></a>1、评估（why when how）：降成本、降风险、质量保障</h5><p>why：</p>
+<p>大型项目经常推迟交付或超支，或由于设计缺陷不能正常工作；</p>
+<p>项目进行过程中有时需要评估并重新设计；</p>
+<p>评估的好处：尽早发现问题，降低解决问题的成本；</p>
+<p>可以传播架构设计的最佳实践，可以提供优秀项目技术管理。</p>
+<p>when：</p>
+<p>越早越好：升级更新时；设计时；构造时</p>
+<p>尽早评估的原因：有时间修正；修正错误成本不高；有效的质量保障和降低风险；很好的商业活动。</p>
+<p>How：</p>
+<p>发现风险点；识别错误的架构选择；保证解决了质量属性；基于质量属性场景；场景与架构组件映射，评估架构是否满足质量属性；风险risks；敏感点sensitivity points；权衡点tradeoffs</p>
+<h5 id="2、ATAM涉众："><a href="#2、ATAM涉众：" class="headerlink" title="2、ATAM涉众："></a>2、ATAM涉众：</h5><p>包括三类：设计者；伙伴；外界人士 designers peers outsiders</p>
+<p>具体主要有：项目设计决策者，评估小组（评估小组组长），架构涉众，项目经理，系统客户，</p>
+<p>每步参与者：</p>
+<p>Phase0: 评估计划（评估小组组长，关键的项目设计决策者 （组长和关键策</p>
+<p>Phase1: 评估1（评估小组，项目设计决策者（组策</p>
+<p>Phase2: 评估2（评估小组，项目设计决策者和架构涉众（组策众</p>
+<p>Phase3: 后续（评估小组，主要涉众（诅咒</p>
+<h5 id="3、ATAM步骤：Architecture-tradeoff-analysis-method（4个phase："><a href="#3、ATAM步骤：Architecture-tradeoff-analysis-method（4个phase：" class="headerlink" title="3、ATAM步骤：Architecture tradeoff analysis method（4个phase："></a>3、ATAM步骤：Architecture tradeoff analysis method（4个phase：</h5><p><strong>Phase0: 参与者准备阶段</strong></p>
+<p><strong>Phase1: 评估1 包括6步：</strong></p>
+<p>1）介绍ATAM方法（评估小组组长 </p>
+<p>2）介绍商业动机（项目经理或系统客户</p>
+<p>3）介绍架构（首席结构师</p>
+<p>4）识别使用的架构方法（评估小组</p>
+<p>5）生成质量属性效用树（评估小组和项目设计决策者</p>
+<p>6）分析架构方法，确保方法时正确的，获取风险点、非风险点、敏感点、权衡点列表（评估小组</p>
+<p><strong>Phase2: 评估2 包括9步（6+3）</strong></p>
+<p>1）介绍ATAM方法和之前的结果，重复以确保涉众也知道方法并回顾分享之前2-6步的结果</p>
+<p>7）头脑风暴，场景划分优先级，与质量属性效用树进行比对（评估小组问涉众</p>
+<p>8）分析架构方法，使用新产生的优先级靠前的场景，架构师解释与之相关的架构决定</p>
+<p>9）展示结果：（评估小组</p>
+<p><strong>Phase3: 后续工作</strong></p>
+<p>1）参与者：评估小组和主要涉众（诅咒</p>
+<h5 id="4、ATAM每步输出"><a href="#4、ATAM每步输出" class="headerlink" title="4、ATAM每步输出"></a>4、ATAM每步输出</h5><p>Phase0: 评估计划（谁、什么时间、提供什么样子的评估报告</p>
+<p>Phase1: 评估1（架构简要展示、业务目标、质量属性和相关场景、效用树、风险和非风险点，敏感点，权衡点</p>
+<p>Phase2: 评估2（优先级场景列表、风险主题和商业动机、每个涉众关心的业务目标</p>
+<p>Phase3: 后续工作（最终的评估报告</p>
+<h4 id="八：质量属性和scenarios"><a href="#八：质量属性和scenarios" class="headerlink" title="八：质量属性和scenarios"></a>八：质量属性和scenarios</h4><p>availablility：可用性；</p>
+<p>interoperability：互操作性。多个系统通过接口交换信息，包括交换和正确推断信息</p>
+<p>modifiability：可修改性。一个更改所消耗的时间和金钱。</p>
+<p>performance：性能。系统响应时间和系统满足时间需求的能力（=处理时间+等待时间</p>
+<p>security：安全性。系统在向合法用户提供服务的同时，阻止非授权使用的能力。</p>
+<p>Testablility：可测试性。通过测试揭示软件缺陷的容易程度。</p>
+<p>Usability：易用性。用户完成特定任务的容易程度和系统提供的用户支持的种类</p>
+<p>X-ability：可变性、可移植性、可伸缩性、可部署性、可复用性</p>
+<p>Mobility：移动性，解决平台之间的移动和支持</p>
+<p>safety：安全性，和security相比，不是有意为之，关注自身安全，防止偶然可能造成破坏的对象</p>
+<p>Variability：可变性，特殊的可修改性</p>
+<p>Portability：易于做改变，用于另一种平台</p>
+<p>Development Distributability：支持分布式软件开发</p>
+<p>Scalability：可伸缩性，对软件系统计算处理能力的设计指标</p>
+<p>Deployability：可部署性</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/03/06/java泛型的Type-Inference/" rel="next" title="java泛型的Type Inference">
+                <i class="fa fa-chevron-left"></i> java泛型的Type Inference
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Amy Xia</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/amyXia1994" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、概念性问题"><span class="nav-number">1.</span> <span class="nav-text">一、概念性问题</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1、架构的5个来源"><span class="nav-number">1.1.</span> <span class="nav-text">1、架构的5个来源</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2、需求的3类，每一类的定义"><span class="nav-number">1.2.</span> <span class="nav-text">2、需求的3类，每一类的定义</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3、架构的定义"><span class="nav-number">1.3.</span> <span class="nav-text">3、架构的定义</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4、列举4种tactics"><span class="nav-number">1.4.</span> <span class="nav-text">4、列举4种tactics</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5、软件架构中的4个活动及各自的输入输出（就是那张颜色丰富的图"><span class="nav-number">1.5.</span> <span class="nav-text">5、软件架构中的4个活动及各自的输入输出（就是那张颜色丰富的图</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、比较对比问题"><span class="nav-number">2.</span> <span class="nav-text">二、比较对比问题</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1、架构VS设计"><span class="nav-number">2.1.</span> <span class="nav-text">1、架构VS设计</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2、架构VS结构"><span class="nav-number">2.2.</span> <span class="nav-text">2、架构VS结构</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3、软件需求VS质量属性VS架构关键需求（ASR"><span class="nav-number">2.3.</span> <span class="nav-text">3、软件需求VS质量属性VS架构关键需求（ASR</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4、patterns-VS-tactics"><span class="nav-number">2.4.</span> <span class="nav-text">4、patterns VS tactics</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5、styles-vs-patterns-vs-views"><span class="nav-number">2.5.</span> <span class="nav-text">5、styles vs patterns vs views</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#6、产品线VS单一产品"><span class="nav-number">2.6.</span> <span class="nav-text">6、产品线VS单一产品</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三、步骤问题"><span class="nav-number">3.</span> <span class="nav-text">三、步骤问题</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1、ADD"><span class="nav-number">3.1.</span> <span class="nav-text">1、ADD</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2、ATAM"><span class="nav-number">3.2.</span> <span class="nav-text">2、ATAM</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3、PK的4-1views"><span class="nav-number">3.3.</span> <span class="nav-text">3、PK的4+1views</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4、文档化——如何选择view："><span class="nav-number">3.4.</span> <span class="nav-text">4、文档化——如何选择view：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5、如何确定ASR："><span class="nav-number">3.5.</span> <span class="nav-text">5、如何确定ASR：</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#四、Patterns-Style-这部分git上总结的很好"><span class="nav-number">4.</span> <span class="nav-text">四、Patterns/Style 这部分git上总结的很好</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1、patterns分类"><span class="nav-number">4.1.</span> <span class="nav-text">1、patterns分类</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2、以MVC为例说明Component-connector模式"><span class="nav-number">4.2.</span> <span class="nav-text">2、以MVC为例说明Component-connector模式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3、分层模式的上下文、优缺点Layerd"><span class="nav-number">4.3.</span> <span class="nav-text">3、分层模式的上下文、优缺点Layerd</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4、代理模式的上下文、优缺点Broker"><span class="nav-number">4.4.</span> <span class="nav-text">4、代理模式的上下文、优缺点Broker</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5、MVC模式"><span class="nav-number">4.5.</span> <span class="nav-text">5、MVC模式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#6、piper-and-filter模式"><span class="nav-number">4.6.</span> <span class="nav-text">6、piper and filter模式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#7、CS模式"><span class="nav-number">4.7.</span> <span class="nav-text">7、CS模式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#8、peer-to-peer模式"><span class="nav-number">4.8.</span> <span class="nav-text">8、peer to peer模式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#9、Service-oriented模式"><span class="nav-number">4.9.</span> <span class="nav-text">9、Service-oriented模式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#10、publish-subscriber模式"><span class="nav-number">4.10.</span> <span class="nav-text">10、publish-subscriber模式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#11、shared-data模式"><span class="nav-number">4.11.</span> <span class="nav-text">11、shared-data模式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#12、Map-reduce模式"><span class="nav-number">4.12.</span> <span class="nav-text">12、Map-reduce模式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#13、multi-tier-based模式"><span class="nav-number">4.13.</span> <span class="nav-text">13、multi-tier based模式</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#五、Designing："><span class="nav-number">5.</span> <span class="nav-text">五、Designing：</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1、ADD-1"><span class="nav-number">5.1.</span> <span class="nav-text">1、ADD</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2、4-1-views"><span class="nav-number">5.2.</span> <span class="nav-text">2、4+1 views</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#六、Documentation：views-and-beyond"><span class="nav-number">6.</span> <span class="nav-text">六、Documentation：views and beyond</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1、structure-views的3种类型："><span class="nav-number">6.1.</span> <span class="nav-text">1、structure views的3种类型：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2、视图的4种分类和目标："><span class="nav-number">6.2.</span> <span class="nav-text">2、视图的4种分类和目标：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3、列举3种结构视图各自包含哪些style："><span class="nav-number">6.3.</span> <span class="nav-text">3、列举3种结构视图各自包含哪些style：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4、documentation-package的两部分，各自的目标："><span class="nav-number">6.4.</span> <span class="nav-text">4、documentation package的两部分，各自的目标：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5、为什么需要使用多种不同视图来记录架构？"><span class="nav-number">6.5.</span> <span class="nav-text">5、为什么需要使用多种不同视图来记录架构？</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#七、Evaluation：ATAM"><span class="nav-number">7.</span> <span class="nav-text">七、Evaluation：ATAM</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1、评估（why-when-how）：降成本、降风险、质量保障"><span class="nav-number">7.1.</span> <span class="nav-text">1、评估（why when how）：降成本、降风险、质量保障</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2、ATAM涉众："><span class="nav-number">7.2.</span> <span class="nav-text">2、ATAM涉众：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3、ATAM步骤：Architecture-tradeoff-analysis-method（4个phase："><span class="nav-number">7.3.</span> <span class="nav-text">3、ATAM步骤：Architecture tradeoff analysis method（4个phase：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4、ATAM每步输出"><span class="nav-number">7.4.</span> <span class="nav-text">4、ATAM每步输出</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#八：质量属性和scenarios"><span class="nav-number">8.</span> <span class="nav-text">八：质量属性和scenarios</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Amy Xia</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://blogrobinhan.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://amyXia1994.github.io/2018/04/09/软件体系结构/';
+          this.page.identifier = '2018/04/09/软件体系结构/';
+          this.page.title = '软件体系结构';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://blogrobinhan.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
